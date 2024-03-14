@@ -1,9 +1,6 @@
 ## About 
 
-Built this "Job Posting" proof of concept to experiment more with Laravel 10, Vue 3, and Inertia. Eventually building a GO microservice that also uses Inertia to handle the frontend high load requests, loading its data from MongoDB, populated by Laravel and Postgres. Traefik will handle the routing of the frontend GO and the backend Laravel requests. I built a docker-compose for easy development as it uses many services.
-
-This is the frontend golang service that will use the same Vue files as the Laravel project for easy development from within Laravel.
-Uses Ziggy to make Vue's compatible with Laravel and abstract the routes.
+This is the frontend GO microservice that also uses Inertia to handle the frontend high load requests, loading its data from MongoDB, populated by Laravel and Postgres. Traefik will handle the routing of the frontend GO and the backend Laravel requests. It uses the same Vue files as the Laravel Job Posting project for easy development from within Laravel, also uses Ziggy to make Vue's compatible with Laravel and abstract the routes.
 
 ### Resources
 - https://github.com/romsar/gonertia
