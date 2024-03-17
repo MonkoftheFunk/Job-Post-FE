@@ -11,6 +11,12 @@ import "go.mongodb.org/mongo-driver/mongo/options"
 type Config struct {
 	DSN         string
 	ConnTimeout time.Duration
+	Database    string
+}
+
+type Client struct {
+	Mongo  *mongo.Client
+	Config *Config
 }
 
 func NewClient(c *Config) *mongo.Client {

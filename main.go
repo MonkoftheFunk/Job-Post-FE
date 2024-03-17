@@ -21,11 +21,12 @@ func main() {
 	config := mongo.Config{
 		DSN:         os.Getenv("MONGO_DB_DSN"),
 		ConnTimeout: time.Second * 10,
+		Database:    "platform",
 	}
 	if config.DSN == "" {
 		log.Fatal("You must set your 'MONGO_DB_DSN' environment variable.")
 	}
-	err = server.Run(port, dist, mongo.NewClient(&config))
+	err = server.Run(port, dist, &config)
 	if err != nil {
 		panic("Failed to setup server: " + err.Error())
 	}
