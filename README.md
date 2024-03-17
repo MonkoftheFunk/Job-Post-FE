@@ -19,9 +19,10 @@ This is the frontend GO microservice that also uses Inertia to handle the fronte
 ![](./readme/view.png)
 
 ### TODO
-- Build Docker compose
-- Wire up MongoDB
-- Display data from MongoDB
+- ~Build Docker compose~
+- ~Wire up MongoDB~
+- ~Display data from MongoDB~ (Index list in progress)
+- Share Redis session/login 
 - Add Tests
 - Move Vue in own repo for project sharing
 
