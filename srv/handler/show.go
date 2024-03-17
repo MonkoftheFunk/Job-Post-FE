@@ -13,8 +13,18 @@ import (
 )
 
 type listing struct {
-	Slug  string `json:"slug"`
-	Title string `json:"title"`
+	Slug          string `json:"slug"`
+	Title         string `json:"title"`
+	Company       string `json:"company"`
+	Content       string `json:"content"`
+	IsActive      bool   `json:"is_active"`
+	IsHighlighted bool   `json:"is_highlighted"`
+	Link          string `json:"link"`
+	Location      string `json:"location"`
+	ClicksCount   string `json:"clicksCount"`
+	LogoUri       string `json:"logoUri"`
+	SinceCreated  string `json:"sinceCreated"`
+	TagsCSV       string `json:"tagsCSV"`
 }
 
 func HandleShow(i *inertia.Inertia, config *repo.Config, l *logrus.Logger) http.Handler {

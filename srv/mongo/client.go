@@ -29,11 +29,11 @@ func NewClient(c *Config) *mongo.Client {
 		log.Fatal(err)
 	}
 
-	defer func() {
+	/*defer func() {
 		if err := client.Disconnect(context.Background()); err != nil {
 			log.Fatal(err)
 		}
-	}()
+	}()*/
 
 	return client
 }
