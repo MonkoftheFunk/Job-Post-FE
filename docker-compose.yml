@@ -8,6 +8,7 @@ services:
     volumes:
       - .:/app:rw
     environment:
+      MONGO_DB_DSN: mongodb://root:example@mongo:27017/platform
       PORT: 9080
     command:
       - go
@@ -18,7 +19,6 @@ services:
     image: mongo
     restart: always
     environment:
-      MONGODB_DATABASE: jobpost
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
@@ -31,19 +31,5 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
-#  mongo-admin:
-#    image: mongo-express
-#    restart: always
-#    ports:
-#      - 8181:8081
-#    environment:
-#      ME_CONFIG_MONGO_DB_SERVER: mongo
-#      ME_CONFIG_MONGODB_URL: "mongodb://root:example@mongo:27017/"
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-#      ME_CONFIG_BASICAUTH_USERNAME: root
-#      ME_CONFIG_BASICAUTH_PASSWORD: example
-#    depends_on:
-#      - mongo
 volumes:
   mongo_data:

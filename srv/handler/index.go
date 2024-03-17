@@ -3,10 +3,11 @@ package handler
 import (
 	inertia "github.com/romsar/gonertia"
 	"github.com/sirupsen/logrus"
+	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
 )
 
-func HandleIndex(i *inertia.Inertia, l *logrus.Logger) http.Handler {
+func HandleIndex(i *inertia.Inertia, mongo *mongo.Client, l *logrus.Logger) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)

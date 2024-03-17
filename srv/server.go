@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	inertia "github.com/romsar/gonertia"
 	"github.com/sirupsen/logrus"
+	"go.mongodb.org/mongo-driver/mongo"
 	"io/fs"
 	"net/http"
 	"strconv"
@@ -17,9 +18,10 @@ type server struct {
 	router  *mux.Router
 	inertia *inertia.Inertia
 	assets  fs.FS
+	mongo   *mongo.Client
 }
 
-func Run(port int, fs fs.FS) error {
+func Run(port int, fs fs.FS, mongo *mongo.Client) error {
 	i, err := inertia.New("./resources/app.html")
 	if err != nil {
 		return err
@@ -31,6 +33,7 @@ func Run(port int, fs fs.FS) error {
 		router:  mux.NewRouter(),
 		inertia: i,
 		assets:  fs,
+		mongo:   mongo,
 	}
 
 	s.bindRoutes()
@@ -47,6 +50,6 @@ func Run(port int, fs fs.FS) error {
 func (s *server) bindRoutes() {
 	// todo use 1.22 mux routing
 	s.router.PathPrefix("/dist/").Handler(http.FileServer(http.FS(s.assets)))
-	s.router.Handle("/l/{slug}", s.inertia.Middleware(handler.HandleShow(s.inertia, s.logger)))
-	s.router.Handle("/", s.inertia.Middleware(handler.HandleIndex(s.inertia, s.logger)))
+	s.router.Handle("/l/{slug}", s.inertia.Middleware(handler.HandleShow(s.inertia, s.mongo, s.logger)))
+	s.router.Handle("/", s.inertia.Middleware(handler.HandleIndex(s.inertia, s.mongo, s.logger)))
 }

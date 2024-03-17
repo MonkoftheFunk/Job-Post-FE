@@ -3,6 +3,7 @@ package handler
 import (
 	inertia "github.com/romsar/gonertia"
 	"github.com/sirupsen/logrus"
+	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
 )
 
@@ -11,7 +12,7 @@ type listing struct {
 	Title string `json:"title"`
 }
 
-func HandleShow(i *inertia.Inertia, l *logrus.Logger) http.Handler {
+func HandleShow(i *inertia.Inertia, mongo *mongo.Client, l *logrus.Logger) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		//vars := mux.Vars(r)
 		//vars["slug"]
