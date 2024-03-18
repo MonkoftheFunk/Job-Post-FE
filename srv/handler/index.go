@@ -6,6 +6,7 @@ import (
 	inertia "github.com/romsar/gonertia"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
 
@@ -23,8 +24,12 @@ func HandleIndex(i *inertia.Inertia, config *repo.Config, l *logrus.Logger) http
 		var query bson.M
 		search := r.URL.Query().Get("search")
 		if search != "" {
-			like := "/" + search + "/i"
-			query = bson.M{"$or": []bson.M{{"title": like}, {"company": like}, {"location": like}}}
+			regexPattern := primitive.Regex{Pattern: search, Options: "i"}
+			query = bson.M{"$or": []bson.M{
+				{"title": regexPattern},
+				{"company": regexPattern},
+				{"location": regexPattern},
+			}}
 		}
 		activeTag := r.URL.Query().Get("activeTag")
 		if activeTag != "" {
