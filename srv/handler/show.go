@@ -3,7 +3,6 @@ package handler
 import (
 	repo "Job-Post-FE/srv/mongo"
 	"context"
-	"fmt"
 	"github.com/gorilla/mux"
 	inertia "github.com/romsar/gonertia"
 	"github.com/sirupsen/logrus"
@@ -28,27 +27,29 @@ type listing struct {
 }
 
 func HandleShow(i *inertia.Inertia, config *repo.Config, l *logrus.Logger) http.Handler {
-	fn := func(w http.ResponseWriter, r *http.Request) {
+
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		repo := repo.NewClient(config)
 		coll := repo.Database(config.Database).Collection("listings")
 		var result listing
+
+		// todo log and handle
 		err := coll.FindOne(context.TODO(), bson.D{{"slug", vars["slug"]}}).Decode(&result)
 		if err == mongo.ErrNoDocuments {
-			fmt.Printf("No document was found with the slug %s\n", vars["slug"])
+			l.Warning("No document was found with the slug %s\n", vars["slug"])
+			http.NotFound(w, r)
 			return
 		}
 		if err != nil {
-			panic(err)
+			l.Fatal(err)
 		}
 
 		err = i.Render(w, r, "Listing/Show", inertia.Props{
 			"listing": result,
 		})
 		if err != nil {
-			panic(err)
+			l.Fatal(err)
 		}
-	}
-
-	return http.HandlerFunc(fn)
+	})
 }
