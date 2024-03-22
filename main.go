@@ -3,7 +3,9 @@ package main
 import (
 	server "Job-Post-FE/srv"
 	"Job-Post-FE/srv/mongo"
+	"Job-Post-FE/srv/session"
 	"embed"
+	"github.com/redis/go-redis/v9"
 	"log"
 	"os"
 	"strconv"
@@ -18,15 +20,28 @@ func main() {
 	if err != nil {
 		panic("Failed to get PORT: " + err.Error())
 	}
-	config := mongo.Config{
+
+	// Mongo
+	mconfig := mongo.Config{
 		DSN:         os.Getenv("MONGO_DB_DSN"),
 		ConnTimeout: time.Second * 10,
 		Database:    "platform",
 	}
-	if config.DSN == "" {
+	if mconfig.DSN == "" {
 		log.Fatal("You must set your 'MONGO_DB_DSN' environment variable.")
 	}
-	err = server.Run(port, dist, &config)
+
+	// Redis - read only
+	opts, err := redis.ParseURL(os.Getenv("REDIS_DB_DSN"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	sconfig := session.Config{
+		Config: *opts,
+		Key:    os.Getenv("APP_KEY"),
+	}
+
+	err = server.Run(port, dist, &mconfig, &sconfig)
 	if err != nil {
 		panic("Failed to setup server: " + err.Error())
 	}

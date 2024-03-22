@@ -2,6 +2,7 @@ package handler
 
 import (
 	repo "Job-Post-FE/srv/mongo"
+	"Job-Post-FE/srv/session"
 	"context"
 	"github.com/gorilla/mux"
 	inertia "github.com/romsar/gonertia"
@@ -26,16 +27,24 @@ type listing struct {
 	TagsCSV       string `json:"tagsCSV"`
 }
 
-func HandleShow(i *inertia.Inertia, config *repo.Config, l *logrus.Logger) http.Handler {
+func HandleShow(i *inertia.Inertia, mconfig *repo.Config, sconfig *session.Config, l *logrus.Logger) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		repo := repo.NewClient(config)
-		coll := repo.Database(config.Database).Collection("listings")
+
+		session, err := session.NewClient(sconfig).Get(r)
+		if err != nil {
+			l.Fatal(err)
+		}
+		//todo
+		l.Infof(session["_token"].(string))
+
+		repo := repo.NewClient(mconfig)
+		coll := repo.Database(mconfig.Database).Collection("listings")
 		var result listing
 
 		// todo log and handle
-		err := coll.FindOne(context.TODO(), bson.D{{"slug", vars["slug"]}}).Decode(&result)
+		err = coll.FindOne(context.TODO(), bson.D{{"slug", vars["slug"]}}).Decode(&result)
 		if err == mongo.ErrNoDocuments {
 			l.Warning("No document was found with the slug %s\n", vars["slug"])
 			http.NotFound(w, r)

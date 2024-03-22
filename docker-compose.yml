@@ -8,8 +8,10 @@ services:
     volumes:
       - .:/app:rw
     environment:
-      MONGO_DB_DSN: mongodb://root:example@mongo:27017/platform
       PORT: 9080
+      MONGO_DB_DSN: mongodb://root:example@mongo:27017/platform
+      REDIS_DB_DSN: redis://redis:6379/0?protocol=3
+      APP_KEY: base64:0oGASEQfjpklH0f37SrmTtxLtNsC8iX1J7eNAqVfqQs=
     command:
       - go
       - run

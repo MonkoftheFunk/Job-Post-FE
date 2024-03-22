@@ -2,6 +2,7 @@ package handler
 
 import (
 	repo "Job-Post-FE/srv/mongo"
+	"Job-Post-FE/srv/session"
 	"context"
 	inertia "github.com/romsar/gonertia"
 	"github.com/sirupsen/logrus"
@@ -10,7 +11,7 @@ import (
 	"net/http"
 )
 
-func HandleIndex(i *inertia.Inertia, config *repo.Config, l *logrus.Logger) http.Handler {
+func HandleIndex(i *inertia.Inertia, mconfig *repo.Config, sconfig *session.Config, l *logrus.Logger) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
@@ -18,8 +19,15 @@ func HandleIndex(i *inertia.Inertia, config *repo.Config, l *logrus.Logger) http
 			return
 		}
 
-		repo := repo.NewClient(config)
-		coll := repo.Database(config.Database).Collection("listings")
+		session, err := session.NewClient(sconfig).Get(r)
+		if err != nil {
+			l.Fatal(err)
+		}
+		//todo
+		l.Infof(session["_token"].(string))
+
+		repo := repo.NewClient(mconfig)
+		coll := repo.Database(mconfig.Database).Collection("listings")
 		var results []listing
 		var query bson.M
 		search := r.URL.Query().Get("search")
