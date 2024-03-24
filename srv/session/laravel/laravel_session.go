@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-
 	"strings"
 
 	"github.com/yvasiyarov/php_session_decoder/php_serialize"
@@ -26,7 +25,7 @@ func GetSessionID(cookie, key string) (string, error) {
 	}
 	err = json.Unmarshal(decodeBytes, &payload)
 	if err != nil {
-		return "", errors.New("cookie value must be valid")
+		return "", errors.New("cookie value must be valid: " + err.Error() + " " + cookie)
 	}
 	encryptedText, err := base64.StdEncoding.DecodeString(payload.Value)
 	if err != nil {

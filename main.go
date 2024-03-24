@@ -39,6 +39,8 @@ func main() {
 	sconfig := session.Config{
 		Config: *opts,
 		Key:    os.Getenv("APP_KEY"),
+		Cookie: os.Getenv("SESSION_COOKIE_NAME"),
+		Prefix: os.Getenv("SESSION_PREFIX"),
 	}
 
 	err = server.Run(port, dist, &mconfig, &sconfig)

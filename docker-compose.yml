@@ -11,6 +11,8 @@ services:
       PORT: 9080
       MONGO_DB_DSN: mongodb://root:example@mongo:27017/platform
       REDIS_DB_DSN: redis://redis:6379/0?protocol=3
+      SESSION_COOKIE_NAME: platform_session
+      SESSION_PREFIX: platform_database_platform_cache_
       APP_KEY: base64:0oGASEQfjpklH0f37SrmTtxLtNsC8iX1J7eNAqVfqQs=
     command:
       - go

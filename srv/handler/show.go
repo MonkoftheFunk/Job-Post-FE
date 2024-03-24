@@ -37,7 +37,9 @@ func HandleShow(i *inertia.Inertia, mconfig *repo.Config, sconfig *session.Confi
 			l.Fatal(err)
 		}
 		//todo
-		l.Infof(session["_token"].(string))
+		if session["_token"] != nil {
+			l.Infof(session["_token"].(string))
+		}
 
 		repo := repo.NewClient(mconfig)
 		coll := repo.Database(mconfig.Database).Collection("listings")
