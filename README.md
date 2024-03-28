@@ -8,7 +8,7 @@ This is the frontend GO microservice that also uses Inertia to handle the fronte
 - https://github.com/chekun/golaravelsession
 
 ### Setup
-- npx mix watch
+- npx mix watch or mix build
 - go build .
 - go run .
 - [http://localhost:9080/](http://localhost:9080/)

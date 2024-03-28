@@ -19,17 +19,13 @@ func HandleIndex(i *inertia.Inertia, mconfig *repo.Config, sconfig *session.Conf
 			return
 		}
 
-		session, err := session.NewClient(sconfig).Get(r)
+		loggedIn, err := session.NewClient(sconfig).GetLoggedIn(r)
 		if err != nil {
-			l.Fatal(err)
-		}
-		//todo
-		if session["_token"] != nil {
-			l.Infof(session["_token"].(string))
+			l.Error(err)
 		}
 
-		repo := repo.NewClient(mconfig)
-		coll := repo.Database(mconfig.Database).Collection("listings")
+		rclient := repo.NewClient(mconfig)
+		coll := rclient.Database(mconfig.Database).Collection("listings")
 		var results []listing
 		var query bson.M
 		search := r.URL.Query().Get("search")
@@ -65,6 +61,7 @@ func HandleIndex(i *inertia.Inertia, mconfig *repo.Config, sconfig *session.Conf
 			"tags":       []string{}, // todo query all stored tags
 			"active_tag": activeTag,
 			"search":     search,
+			"logged_in":  loggedIn,
 		})
 		if err != nil {
 			l.Fatal(err)

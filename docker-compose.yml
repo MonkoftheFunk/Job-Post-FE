@@ -13,6 +13,7 @@ services:
       REDIS_DB_DSN: redis://redis:6379/0?protocol=3
       SESSION_COOKIE_NAME: platform_session
       SESSION_PREFIX: platform_database_platform_cache_
+      SESSION_USER_KEY: login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d
       APP_KEY: base64:0oGASEQfjpklH0f37SrmTtxLtNsC8iX1J7eNAqVfqQs=
     command:
       - go

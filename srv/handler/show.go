@@ -32,17 +32,13 @@ func HandleShow(i *inertia.Inertia, mconfig *repo.Config, sconfig *session.Confi
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 
-		session, err := session.NewClient(sconfig).Get(r)
+		loggedIn, err := session.NewClient(sconfig).GetLoggedIn(r)
 		if err != nil {
-			l.Fatal(err)
-		}
-		//todo
-		if session["_token"] != nil {
-			l.Infof(session["_token"].(string))
+			l.Error(err)
 		}
 
-		repo := repo.NewClient(mconfig)
-		coll := repo.Database(mconfig.Database).Collection("listings")
+		rclient := repo.NewClient(mconfig)
+		coll := rclient.Database(mconfig.Database).Collection("listings")
 		var result listing
 
 		// todo log and handle
@@ -57,7 +53,8 @@ func HandleShow(i *inertia.Inertia, mconfig *repo.Config, sconfig *session.Confi
 		}
 
 		err = i.Render(w, r, "Listing/Show", inertia.Props{
-			"listing": result,
+			"listing":   result,
+			"logged_in": loggedIn,
 		})
 		if err != nil {
 			l.Fatal(err)

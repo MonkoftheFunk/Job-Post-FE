@@ -6,16 +6,18 @@ import (
 	"errors"
 	"github.com/redis/go-redis/v9"
 	"github.com/yvasiyarov/php_session_decoder/php_serialize"
+	"math/big"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
 type Config struct {
-	Config redis.Options
-	Key    string
-	Cookie string
-	Prefix string
+	Config  redis.Options
+	Key     string
+	Cookie  string
+	Prefix  string
+	UserKey string
 }
 
 type Client struct {
@@ -30,8 +32,30 @@ func NewClient(c *Config) *Client {
 	}
 }
 
-func (c *Client) Get(r *http.Request) (php_serialize.PhpArray, error) {
-	id, err := c.SessionID(r)
+func (c *Client) GetLoggedIn(r *http.Request) (bool, error) {
+	id, err := c.GetUserID(r)
+	if err != nil {
+		return false, err
+	}
+
+	return id.Cmp(big.NewInt(0)) == 0, nil
+}
+
+func (c *Client) GetUserID(r *http.Request) (*big.Int, error) {
+	data, err := c.GetData(r)
+	if err != nil {
+		return big.NewInt(0), err
+	}
+
+	if data[c.Config.UserKey] == nil {
+		return big.NewInt(0), nil
+	}
+
+	return big.NewInt(data[c.Config.UserKey].(int64)), nil
+}
+
+func (c *Client) GetData(r *http.Request) (php_serialize.PhpArray, error) {
+	id, err := c.GetSessionID(r)
 	if err != nil {
 		return php_serialize.PhpArray{}, err
 	}
@@ -42,7 +66,7 @@ func (c *Client) Get(r *http.Request) (php_serialize.PhpArray, error) {
 	return c.Session(id)
 }
 
-func (c *Client) SessionID(r *http.Request) (string, error) {
+func (c *Client) GetSessionID(r *http.Request) (string, error) {
 	if c.Config.Cookie == "" {
 		panic("Session Cookie name required")
 	}

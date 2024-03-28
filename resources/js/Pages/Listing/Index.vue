@@ -20,6 +20,10 @@ defineProps({
         type: Array,
         required: true,
     },
+    logged_in: {
+        type: Boolean,
+        required: true,
+    }
 })
 
 const activeClass = ref('bg-indigo-500 text-white')
@@ -28,7 +32,7 @@ const normalClass = ref('bg-white text-indigo-500')
 
 <template>
     <Head title="Listings"/>
-    <Header/>
+    <Header :logged_in="logged_in"/>
 
     <Hero :search="search"/>
     <section class="container px-5 py-12 mx-auto">

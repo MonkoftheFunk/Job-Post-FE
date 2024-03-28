@@ -1,3 +1,10 @@
+<script setup>
+defineProps({
+  logged_in: {
+    type: Boolean,
+  },
+})
+</script>
 <template>
     <header class="text-gray-600 body-font border-b border-gray-100">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -8,9 +15,8 @@
                 </svg>
                 <span class="ml-3 text-xl">Laravel Job Board</span>
             </a>
-                <!-- todo auth/login checking
                 <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                    <a v-if="$page.props.auth.user" :href="route('dashboard')" class="mr-5 hover:text-gray-900">Dashboard</a>
+                    <a v-if="logged_in" :href="route('dashboard')" class="mr-5 hover:text-gray-900">Dashboard</a>
                     <a v-else :href="route('login')" class="mr-5 hover:text-gray-900">Employers</a>
                 </nav>
                 <a v-if="route().current() != 'admin.listings.create'"
@@ -19,7 +25,7 @@
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
-                </a>-->
+                </a>
         </div>
     </header>
 </template>

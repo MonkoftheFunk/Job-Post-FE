@@ -22,6 +22,14 @@ const Ziggy = {
     "port": 9180,
     "defaults": {},
     "routes": {
+        "dashboard": {
+            "uri": "a\/dashboard",
+            "methods": ["GET", "HEAD"]
+        },
+        "admin.listings.create": {
+            "uri": "a\/new",
+            "methods": ["GET", "HEAD"]
+        },
         "listings.index": {
             "uri": "\/",
             "methods": ["GET", "HEAD"]
@@ -44,10 +52,6 @@ const Ziggy = {
         },
         "login": {
             "uri": "login",
-            "methods": ["GET", "HEAD"]
-        },
-        "dashboard": {
-            "uri": "dashboard",
             "methods": ["GET", "HEAD"]
         },
     }
