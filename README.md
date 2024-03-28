@@ -1,6 +1,6 @@
 ## About 
 
-This is the frontend GO microservice that also uses Inertia to handle the frontend high load requests, loading its data from MongoDB, populated by Laravel and Postgres. Traefik will handle the routing of the frontend GO and the backend Laravel requests. It uses the same Vue files as the Laravel Job Posting project for easy development from within Laravel, also uses Ziggy to make Vue's compatible with Laravel and abstract the routes.
+This is the frontend GO microservice that also uses Inertia to handle the frontend high load requests, loading its data from MongoDB, populated by [Laravel and Postgres](https://github.com/MonkoftheFunk/Job-Post). Traefik will handle the routing of the frontend GO and the backend Laravel requests. It uses the same Vue files as the Laravel Job Posting project for easy development from within Laravel, also uses Ziggy to make Vue's compatible with Laravel and abstract the routes.
 
 ### Resources
 - https://github.com/romsar/gonertia
@@ -14,7 +14,7 @@ This is the frontend GO microservice that also uses Inertia to handle the fronte
 - [http://localhost:9080/](http://localhost:9080/)
 
 ### Screenshots
-- Same as other project
+- Same as other [project](https://github.com/MonkoftheFunk/Job-Post)
 ![](./readme/list.png)
 ![](./readme/create.png)
 ![](./readme/view.png)
