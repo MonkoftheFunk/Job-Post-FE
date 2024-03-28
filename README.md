@@ -6,6 +6,7 @@ This is the frontend GO microservice that also uses Inertia to handle the fronte
 - https://github.com/romsar/gonertia
 - https://github.com/petaki/inertia-go
 - https://github.com/chekun/golaravelsession
+- https://laravel-mix.com/docs/6.0/installation
 
 ### Setup
 - npx mix watch or mix build
