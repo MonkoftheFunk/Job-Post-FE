@@ -1,7 +1,4 @@
 node_modules
-dist/*.css
-dist/*.js
-dist/*.json
 httpd/*
 .env
 /.idea
